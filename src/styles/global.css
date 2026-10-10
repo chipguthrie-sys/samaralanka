@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-linen-50: #faf7f2;
+  --color-linen-100: #f3ede3;
+  --color-linen-200: #e8dfd0;
+  --color-stone-warm: #8a8174;
+  --color-ink: #2a2723;
+  --color-palm-50: #eef3ee;
+  --color-palm-500: #4f7a5c;
+  --color-palm-600: #3d6349;
+  --color-palm-800: #25402f;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { @apply bg-linen-50 text-ink font-sans antialiased; }
+  h1, h2, h3 { @apply font-serif font-medium tracking-tight; }
+}
+
+@utility eyebrow {
+  @apply text-xs uppercase tracking-[0.25em] text-palm-600 font-medium;
+}

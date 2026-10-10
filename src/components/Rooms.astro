@@ -1,0 +1,25 @@
+---
+import { property } from '../data/property';
+import Icon from './Icon.astro';
+---
+<section id="rooms" class="bg-linen-100 py-24">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="eyebrow">The Space</p>
+    <h2 class="mt-4 text-4xl sm:text-5xl">Four bedrooms, each with its own bathroom</h2>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {property.rooms.map((r) => (
+        <article class="overflow-hidden rounded-2xl bg-linen-50 shadow-sm">
+          <img src={r.image} alt={r.name} loading="lazy" class="aspect-[4/3] w-full object-cover" />
+          <div class="p-6">
+            <h3 class="text-2xl">{r.name}</h3>
+            <ul class="mt-4 space-y-2 text-sm text-stone-warm">
+              <li class="flex gap-2"><Icon name="BedDouble" size={18} class="shrink-0 text-palm-500" />{r.beds}</li>
+              <li class="flex gap-2"><Icon name="Bath" size={18} class="shrink-0 text-palm-500" />{r.ensuite}</li>
+              <li class="flex gap-2"><Icon name="Sparkles" size={18} class="shrink-0 text-palm-500" />{r.note}</li>
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

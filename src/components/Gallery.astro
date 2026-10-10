@@ -1,0 +1,12 @@
+---
+import { property } from '../data/property';
+const [main, ...rest] = property.images.gallery;
+---
+<section id="gallery" class="mx-auto max-w-7xl px-5 pt-20 lg:px-8">
+  <div class="grid h-[320px] grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] md:h-[520px] md:grid-cols-4 md:grid-rows-2">
+    <img src={main.src} alt={main.alt} loading="lazy" class="col-span-2 row-span-2 h-full w-full object-cover md:col-span-2" />
+    {rest.map((img, i) => (
+      <img src={img.src} alt={img.alt} loading="lazy" class:list={['hidden h-full w-full object-cover md:block', i === 0 && 'max-md:!block max-md:col-span-1', ]} />
+    ))}
+  </div>
+</section>

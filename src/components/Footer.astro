@@ -1,0 +1,28 @@
+---
+import { property } from '../data/property';
+import { Instagram, Facebook, MapPin } from 'lucide-astro';
+const { lat, lng } = property.location;
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.03}%2C${lat - 0.02}%2C${lng + 0.03}%2C${lat + 0.02}&layer=mapnik&marker=${lat}%2C${lng}`;
+---
+<footer id="location" class="bg-ink pb-28 pt-20 text-linen-100 md:pb-12">
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2 lg:px-8">
+    <div>
+      <p class="font-serif text-3xl">{property.name}</p>
+      <p class="mt-3 flex items-center gap-2 text-sm text-linen-200/80"><MapPin size={16} />{property.location.area}, {property.location.country}</p>
+      <nav class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm" aria-label="Footer">
+        {property.nav.map((n) => <a href={n.href} class="text-linen-200/80 hover:text-white">{n.label}</a>)}
+      </nav>
+      <div class="mt-8 flex gap-4">
+        <a href={property.social.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/20 p-3 hover:bg-white/10"><Instagram size={18} /></a>
+        <a href={property.social.facebook} aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/20 p-3 hover:bg-white/10"><Facebook size={18} /></a>
+      </div>
+    </div>
+    <div class="overflow-hidden rounded-2xl border border-white/10">
+      <iframe title="Map of Samara Lanka (approximate location)" src={mapSrc} loading="lazy" class="h-64 w-full grayscale" ></iframe>
+    </div>
+  </div>
+  <div class="mx-auto mt-14 max-w-7xl border-t border-white/10 px-5 pt-8 text-xs leading-relaxed text-linen-200/60 lg:px-8">
+    <p>{property.disclaimer}</p>
+    <p class="mt-3">© {new Date().getFullYear()} {property.name}. All rights reserved.</p>
+  </div>
+</footer>

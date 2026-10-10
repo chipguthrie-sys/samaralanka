@@ -1,0 +1,10 @@
+---
+import { property } from '../data/property';
+---
+<div class="fixed inset-x-0 bottom-0 z-50 flex items-center justify-between gap-4 border-t border-linen-200 bg-linen-50/95 px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] backdrop-blur md:hidden">
+  <div>
+    <p class="text-xs text-stone-warm">From</p>
+    <p class="font-serif text-2xl leading-none">{property.nightlyRate.label}<span class="font-sans text-xs text-stone-warm"> / night</span></p>
+  </div>
+  <a href={property.bookingUrl} target="_blank" rel="noopener noreferrer" class="rounded-full bg-palm-600 px-7 py-3 text-sm font-medium text-white active:bg-palm-800">Book Now</a>
+</div>

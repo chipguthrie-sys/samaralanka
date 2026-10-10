@@ -1,0 +1,17 @@
+---
+import { property } from '../data/property';
+import Icon from './Icon.astro';
+---
+<section id="amenities" class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+  <p class="eyebrow">Amenities</p>
+  <h2 class="mt-4 text-4xl sm:text-5xl">Everything considered</h2>
+  <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {property.amenities.map((a) => (
+      <div class="rounded-2xl border border-linen-200 bg-white/60 p-6 transition hover:shadow-md">
+        <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-palm-50 text-palm-600"><Icon name={a.icon} size={22} /></span>
+        <h3 class="mt-5 text-xl">{a.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-stone-warm">{a.text}</p>
+      </div>
+    ))}
+  </div>
+</section>

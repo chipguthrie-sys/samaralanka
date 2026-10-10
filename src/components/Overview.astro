@@ -1,0 +1,18 @@
+---
+import { property } from '../data/property';
+const { overview, stats } = property;
+---
+<section id="overview" class="mx-auto grid max-w-7xl gap-12 px-5 py-24 lg:grid-cols-5 lg:px-8">
+  <div class="lg:col-span-3">
+    <p class="eyebrow">The Villa</p>
+    <h2 class="mt-4 text-4xl leading-tight sm:text-5xl">{overview.heading}</h2>
+    <div class="mt-8 space-y-5 text-lg font-light leading-relaxed text-stone-warm">
+      {overview.body.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+  <aside class="self-start rounded-2xl bg-linen-100 p-8 lg:col-span-2">
+    <p class="font-serif text-6xl text-palm-600">{stats.rating}</p>
+    <p class="mt-1 text-sm text-stone-warm">Exceptional · {stats.reviews} verified Booking.com reviews</p>
+    <a href={property.bookingUrl} target="_blank" rel="noopener noreferrer" class="mt-6 inline-block rounded-full bg-palm-600 px-6 py-3 text-sm font-medium text-white hover:bg-palm-800">Check availability</a>
+  </aside>
+</section>

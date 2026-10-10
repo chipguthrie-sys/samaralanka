@@ -1,0 +1,22 @@
+---
+import { property } from '../data/property';
+import Icon from './Icon.astro';
+---
+<section id="guide" class="bg-palm-800 py-24 text-linen-50">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <p class="eyebrow !text-linen-200/80">Local Guide</p>
+    <h2 class="mt-4 text-4xl sm:text-5xl">Beyond the garden gate</h2>
+    <div class="mt-12 grid gap-px overflow-hidden rounded-2xl bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
+      {property.guide.map((g) => (
+        <div class="bg-palm-800 p-8">
+          <div class="flex items-center justify-between">
+            <Icon name={g.icon} size={26} class="text-linen-200" />
+            <span class="text-xs uppercase tracking-widest text-linen-200/70">{g.distance}</span>
+          </div>
+          <h3 class="mt-6 text-2xl">{g.title}</h3>
+          <p class="mt-2 text-sm font-light leading-relaxed text-linen-100/80">{g.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
