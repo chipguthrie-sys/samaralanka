@@ -3,22 +3,32 @@ import { property } from '../data/property';
 import Icon from './Icon.astro';
 const { space, rooms } = property;
 const icons = ['Bath', 'TreePalm', 'Binoculars'];
+const galleries = rooms.map((r) => r.images);
+const tile =
+  'group relative block w-full cursor-zoom-in overflow-hidden border border-stone-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-palm-500';
+const img = 'aspect-[3/2] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]';
 ---
-<section id="rooms" class="bg-linen-100 py-24">
+<section id="rooms" class="bg-linen-100 py-24" data-rooms>
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <p class="eyebrow">{space.eyebrow}</p>
     <h2 class="mt-4 max-w-3xl text-4xl sm:text-5xl">{space.heading}</h2>
     <p class="mt-6 max-w-2xl text-lg text-stone-warm">{space.intro}</p>
     <div class="mt-12 grid gap-8 lg:grid-cols-2">
-      {rooms.map((r) => {
+      {rooms.map((r, ri) => {
         const [main, ...rest] = r.images;
         return (
-          <article class="overflow-hidden rounded-2xl bg-linen-50 shadow-sm">
-            <img src={main.src} alt={main.alt} loading="lazy" class="aspect-[3/2] w-full object-cover" />
+          <article class="overflow-hidden rounded-2xl border border-stone-200 bg-linen-50 shadow-sm">
+            <div>
+              <button type="button" data-room={ri} data-index="0" aria-label={`Open photo 1 of ${r.images.length}: ${main.alt}`} class={tile}>
+                <img src={main.src} alt={main.alt} loading="lazy" class={img} />
+              </button>
+            </div>
             {rest.length > 0 && (
-              <div class="grid gap-1 pt-1" style={`grid-template-columns: repeat(${rest.length}, minmax(0, 1fr))`}>
-                {rest.map((img) => (
-                  <img src={img.src} alt={img.alt} loading="lazy" class="aspect-[3/2] w-full object-cover" />
+              <div class="grid gap-px bg-stone-200" style={`grid-template-columns: repeat(${rest.length}, minmax(0, 1fr))`}>
+                {rest.map((p, i) => (
+                  <button type="button" data-room={ri} data-index={i + 1} aria-label={`Open photo ${i + 2} of ${r.images.length}: ${p.alt}`} class:list={[tile, 'border-0']}>
+                    <img src={p.src} alt={p.alt} loading="lazy" class={img} />
+                  </button>
                 ))}
               </div>
             )}
@@ -35,4 +45,59 @@ const icons = ['Bath', 'TreePalm', 'Binoculars'];
       })}
     </div>
   </div>
+
+  <dialog data-lightbox aria-label="Room photos" class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/90">
+    <div class="relative flex h-full w-full items-center justify-center" data-backdrop>
+      <img data-lightbox-img src="" alt="" class="max-h-[85vh] max-w-[92vw] select-none rounded-2xl object-contain" />
+      <p data-lightbox-caption class="absolute bottom-5 left-0 right-0 text-center text-sm text-white/80"></p>
+      <button type="button" data-close aria-label="Close gallery" class="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25"><Icon name="X" size={22} /></button>
+      <button type="button" data-prev aria-label="Previous photo" class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:left-6"><Icon name="ChevronLeft" size={26} /></button>
+      <button type="button" data-next aria-label="Next photo" class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:right-6"><Icon name="ChevronRight" size={26} /></button>
+    </div>
+  </dialog>
 </section>
+
+<script define:vars={{ galleries, names: rooms.map((r) => r.name) }}>
+  const root = document.querySelector('[data-rooms]');
+  const dialog = root.querySelector('[data-lightbox]');
+  const imgEl = root.querySelector('[data-lightbox-img]');
+  const caption = root.querySelector('[data-lightbox-caption]');
+  let room = 0;
+  let current = 0;
+
+  const show = (i) => {
+    const photos = galleries[room];
+    current = (i + photos.length) % photos.length;
+    imgEl.src = photos[current].src;
+    imgEl.alt = photos[current].alt;
+    caption.textContent = `${names[room]} · ${current + 1} / ${photos.length}`;
+  };
+  const open = (r, i) => {
+    room = r;
+    show(i);
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+  };
+
+  root.querySelectorAll('button[data-room]').forEach((b) =>
+    b.addEventListener('click', () => open(Number(b.dataset.room), Number(b.dataset.index)))
+  );
+  root.querySelector('[data-prev]').addEventListener('click', () => show(current - 1));
+  root.querySelector('[data-next]').addEventListener('click', () => show(current + 1));
+  root.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+  root.querySelector('[data-backdrop]').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) dialog.close();
+  });
+  // Escape is handled natively by <dialog>
+  dialog.addEventListener('close', () => (document.body.style.overflow = ''));
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+  let startX = 0;
+  dialog.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+  dialog.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+  });
+</script>

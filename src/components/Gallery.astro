@@ -1,12 +1,75 @@
 ---
 import { property } from '../data/property';
-const [main, ...rest] = property.images.gallery;
+import Icon from './Icon.astro';
+const photos = property.images.gallery;
+const [main, ...rest] = photos;
+const tile =
+  'group relative block h-full w-full cursor-zoom-in overflow-hidden border border-stone-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-palm-500';
+const img = 'h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]';
 ---
-<section id="gallery" class="mx-auto max-w-7xl px-5 pt-20 lg:px-8">
-  <div class="grid h-[320px] grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] md:h-[520px] md:grid-cols-4 md:grid-rows-2">
-    <img src={main.src} alt={main.alt} loading="lazy" class="col-span-2 row-span-2 h-full w-full object-cover md:col-span-2" />
-    {rest.map((img, i) => (
-      <img src={img.src} alt={img.alt} loading="lazy" class:list={['hidden h-full w-full object-cover md:block', i === 0 && 'max-md:!block max-md:col-span-1', ]} />
-    ))}
+<section id="gallery" class="mx-auto max-w-7xl px-5 pt-20 lg:px-8" data-gallery>
+  <div class="relative">
+    <div class="grid h-[320px] grid-cols-2 gap-2 overflow-hidden rounded-2xl border border-stone-200 sm:h-[420px] md:h-[520px] md:grid-cols-4 md:grid-rows-2">
+      <button type="button" data-index="0" aria-label={`Open photo 1 of ${photos.length}: ${main.alt}`} class:list={[tile, 'col-span-2 row-span-2 md:col-span-2']}>
+        <img src={main.src} alt={main.alt} loading="lazy" class={img} />
+      </button>
+      {rest.map((p, i) => (
+        <button type="button" data-index={i + 1} aria-label={`Open photo ${i + 2} of ${photos.length}: ${p.alt}`} class:list={[tile, 'hidden md:block', i === 0 && 'max-md:!block max-md:col-span-1']}>
+          <img src={p.src} alt={p.alt} loading="lazy" class={img} />
+        </button>
+      ))}
+    </div>
   </div>
+
+  <dialog data-lightbox aria-label="Photo gallery" class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/90">
+    <div class="relative flex h-full w-full items-center justify-center" data-backdrop>
+      <img data-lightbox-img src="" alt="" class="max-h-[85vh] max-w-[92vw] select-none rounded-2xl object-contain" />
+      <p data-lightbox-caption class="absolute bottom-5 left-0 right-0 text-center text-sm text-white/80"></p>
+      <button type="button" data-close aria-label="Close gallery" class="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25"><Icon name="X" size={22} /></button>
+      <button type="button" data-prev aria-label="Previous photo" class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:left-6"><Icon name="ChevronLeft" size={26} /></button>
+      <button type="button" data-next aria-label="Next photo" class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:right-6"><Icon name="ChevronRight" size={26} /></button>
+    </div>
+  </dialog>
 </section>
+
+<script define:vars={{ photos }}>
+  const root = document.querySelector('[data-gallery]');
+  const dialog = root.querySelector('[data-lightbox]');
+  const imgEl = root.querySelector('[data-lightbox-img]');
+  const caption = root.querySelector('[data-lightbox-caption]');
+  let current = 0;
+
+  const show = (i) => {
+    current = (i + photos.length) % photos.length;
+    imgEl.src = photos[current].src;
+    imgEl.alt = photos[current].alt;
+    caption.textContent = `${current + 1} / ${photos.length} · ${photos[current].alt}`;
+  };
+  const open = (i) => {
+    show(i);
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+  };
+
+  root.querySelectorAll('button[data-index]').forEach((b) =>
+    b.addEventListener('click', () => open(Number(b.dataset.index)))
+  );
+  root.querySelector('[data-prev]').addEventListener('click', () => show(current - 1));
+  root.querySelector('[data-next]').addEventListener('click', () => show(current + 1));
+  root.querySelector('[data-close]').addEventListener('click', () => dialog.close());
+  root.querySelector('[data-backdrop]').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) dialog.close();
+  });
+  // Escape is handled natively by <dialog>
+  dialog.addEventListener('close', () => (document.body.style.overflow = ''));
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+  let startX = 0;
+  dialog.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+  dialog.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+  });
+</script>

@@ -44,6 +44,21 @@ export const property = {
       { src: '/images/gallery/gallery5.jpg', alt: 'Samara Resort villa view' },
     ],
   },
+  welcome: {
+    eyebrow: 'Welcome',
+    heading: 'A warm welcome at the gate',
+    body: [
+      'You will know you have arrived when you see our hand-painted entrance wall, with the Samara Resort name and its graceful bird.',
+      'Samara Resort is a family-owned retreat near Yala National Park. A local couple run the property day to day, welcoming every guest personally and cooking home-style meals on request.',
+      'Come for the wildlife and the quiet, and feel at home from the moment you walk through the gate.',
+    ],
+    photo: {
+      src: '/images/main-gate/samara.jpeg',
+      alt: 'Samara presenting the hand-painted Samara Resort entrance wall',
+      caption: 'Samara, welcoming you at the gate',
+      position: 'object-[75%_center]',
+    },
+  },
   space: {
     eyebrow: 'The Space',
     heading: 'Two private bedrooms, each with its own bathroom and patio',
@@ -77,17 +92,51 @@ export const property = {
     { icon: 'ChefHat', title: 'Home-Cooked Meals', text: 'Freshly prepared meals by our local host, available on request.' },
     { icon: 'CarFront', title: 'Free Parking', text: 'Secure on-site parking for up to three vehicles.' },
   ],
-  guide: [
-    { icon: 'Binoculars', title: 'Yala National Park', text: 'Jeep safaris in search of leopards, elephants and abundant birdlife.', distance: '~30 min drive' },
-    { icon: 'Waves', title: 'Tissa Wewa', text: 'Ancient reservoir lake, lovely for sunset walks and birdwatching.', distance: 'Nearby' },
-    { icon: 'Landmark', title: 'Kataragama', text: 'Sacred pilgrimage town with its famous temple complex and evening puja.', distance: '~30 min drive' },
-    { icon: 'Bird', title: 'Bundala National Park', text: 'Wetland sanctuary and Ramsar site, rich in migratory birds.', distance: '~45 min drive' },
-    { icon: 'Umbrella', title: 'Kirinda Beach', text: 'Quiet coastal beach with a seaside temple on the rocks.', distance: '~25 min drive' },
-    { icon: 'UtensilsCrossed', title: 'Local Dining', text: 'Rice and curry, fresh lake fish and cafés in Tissamaharama town.', distance: 'Nearby' },
-  ],
+  guide: {
+    eyebrow: 'Local Guide',
+    heading: 'Curated Experiences',
+    intro: 'Our favourite things to do around Tissamaharama, with honest drive times from the property and a tip from us for each.',
+    tabs: [
+      {
+        id: 'beaches-surf',
+        label: 'Beaches & Surf',
+        items: [
+          { icon: 'Umbrella', title: 'Kirinda Beach', text: 'Quiet coastal beach with a seaside temple on the rocks.', distance: '~25 min drive', tip: 'Go in the late afternoon when the light is soft and it is cooler. Currents can be strong, so paddle rather than swim.', transport: true },
+          { icon: 'Waves', title: 'Hambantota Beach', text: 'Long, open stretch of sand on the south coast.', distance: '~50 min drive', tip: 'Combine it with a seafood lunch on the way back.', transport: true },
+          { icon: 'Waves', title: 'Arugam Bay Surf', text: 'Sri Lanka’s best-known surf destination on the east coast.', distance: '~2.5–3 hr drive', tip: 'A long day trip. Surf season there runs roughly May to September.', transport: true },
+        ],
+      },
+      {
+        id: 'culture-wildlife',
+        label: 'Culture & Wildlife',
+        items: [
+          { icon: 'Binoculars', title: 'Yala National Park', text: 'Jeep safaris in search of leopards, elephants and abundant birdlife.', distance: '~30 min drive', tip: 'Early-morning safaris are quieter and best for wildlife. Ask us to help arrange a jeep and driver.', transport: true },
+          { icon: 'Landmark', title: 'Kataragama', text: 'Sacred pilgrimage town with its famous temple complex and evening puja.', distance: '~30 min drive', tip: 'Visit around the evening puja, and dress modestly with shoulders and knees covered.', transport: true },
+          { icon: 'Bird', title: 'Bundala National Park', text: 'Wetland sanctuary and Ramsar site, rich in migratory birds.', distance: '~45 min drive', tip: 'Quieter than Yala and ideal for birdwatchers. Bring binoculars.', transport: true },
+          { icon: 'Waves', title: 'Tissa Wewa', text: 'Ancient reservoir lake, lovely for walks and birdwatching.', distance: 'Nearby', tip: 'Stroll the lakeside at dawn or dusk for birds and changing light.', transport: false },
+          { icon: 'Landmark', title: 'Tissamaharama Stupa', text: 'Ancient white stupa in the heart of town.', distance: 'Nearby', tip: 'Best visited in the cooler hours. Remove shoes and cover shoulders and knees.', transport: false },
+        ],
+      },
+      {
+        id: 'dining-sundowners',
+        label: 'Dining & Sundowners',
+        items: [
+          { icon: 'ChefHat', title: 'Home-Cooked Meals', text: 'Freshly prepared meals by our local host, cooked on request.', distance: 'At the property', tip: 'Let us know your dietary needs and preferences ahead of time so we can plan the menu.', transport: false },
+          { icon: 'UtensilsCrossed', title: 'Local Dining', text: 'Rice and curry, fresh lake fish and cafés in Tissamaharama town.', distance: 'Nearby', tip: 'Ask for the freshwater fish from the lake when it is in season.', transport: true },
+          { icon: 'Sunset', title: 'Sunset at Tissa Wewa', text: 'Watch the sun set over the lake and the birds come in to roost.', distance: 'Nearby', tip: 'Arrive about 30 minutes before sunset to find a good spot.', transport: true },
+          { icon: 'Sunset', title: 'Sundowners at Kirinda', text: 'Watch the sun sink into the ocean from the coast.', distance: '~25 min drive', tip: 'Plan your return journey before dark. We can help organise a driver.', transport: true },
+        ],
+      },
+    ],
+  },
   disclaimer:
     'Samara Resort is an independently operated property. Reservations are made and processed securely through Booking.com. Booking.com is a trademark of Booking.com B.V. and is not affiliated with this website.',
 } as const;
 
 export const whatsappUrl = () =>
   `https://wa.me/${property.whatsapp.number}?text=${encodeURIComponent(property.whatsapp.message)}`;
+
+export const transportUrl = (place: string) =>
+  `https://wa.me/${property.whatsapp.number}?text=${encodeURIComponent(
+    `Hello Samara Resort, could you help arrange transport to ${place} during our stay?`
+  )}`;

@@ -1,22 +1,86 @@
 ---
-import { property } from '../data/property';
+import { property, transportUrl } from '../data/property';
 import Icon from './Icon.astro';
+const { guide } = property;
 ---
-<section id="guide" class="bg-palm-800 py-24 text-linen-50">
+<section id="guide" class="bg-palm-800 py-24 text-linen-50" data-guide>
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    <p class="eyebrow !text-linen-200/80">Local Guide</p>
-    <h2 class="mt-4 text-4xl sm:text-5xl">Beyond the garden gate</h2>
-    <div class="mt-12 grid gap-px overflow-hidden rounded-2xl bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
-      {property.guide.map((g) => (
-        <div class="bg-palm-800 p-8">
-          <div class="flex items-center justify-between">
-            <Icon name={g.icon} size={26} class="text-linen-200" />
-            <span class="text-xs uppercase tracking-widest text-linen-200/70">{g.distance}</span>
-          </div>
-          <h3 class="mt-6 text-2xl">{g.title}</h3>
-          <p class="mt-2 text-sm font-light leading-relaxed text-linen-100/80">{g.text}</p>
-        </div>
+    <p class="eyebrow !text-linen-200/80">{guide.eyebrow}</p>
+    <h2 class="mt-4 text-4xl sm:text-5xl">{guide.heading}</h2>
+    <p class="mt-6 max-w-2xl text-lg font-light text-linen-100/80">{guide.intro}</p>
+
+    <div role="tablist" aria-label="Experience categories" class="-mx-5 mt-10 flex gap-2 overflow-x-auto px-5 pb-1 lg:mx-0 lg:px-0">
+      {guide.tabs.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`guide-tab-${t.id}`}
+          aria-controls={`guide-panel-${t.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="guide-tab shrink-0 rounded-full border border-white/25 px-5 py-2.5 text-sm transition aria-selected:border-linen-50 aria-selected:bg-linen-50 aria-selected:text-palm-800 hover:bg-white/10 aria-selected:hover:bg-linen-50"
+        >{t.label}</button>
       ))}
     </div>
+
+    {guide.tabs.map((t, i) => (
+      <div role="tabpanel" id={`guide-panel-${t.id}`} aria-labelledby={`guide-tab-${t.id}`} hidden={i !== 0} class="guide-panel mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {t.items.map((g) => (
+          <article class="flex flex-col rounded-2xl border border-white/15 bg-white/5 p-7">
+            <div class="flex items-center justify-between gap-3">
+              <Icon name={g.icon} size={26} class="text-linen-200" />
+              <span class="text-xs uppercase tracking-widest text-linen-200/70">{g.distance}</span>
+            </div>
+            <h3 class="mt-6 text-2xl">{g.title}</h3>
+            <p class="mt-2 text-sm font-light leading-relaxed text-linen-100/80">{g.text}</p>
+            <p class="mt-4 border-l-2 border-linen-200/40 pl-3 text-sm italic leading-relaxed text-linen-100/90"><span class="not-italic font-medium text-linen-50">Insider tip:</span> {g.tip}</p>
+            {g.transport && (
+              <a href={transportUrl(g.title)} target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-2 self-start pt-1 text-sm text-linen-50 underline underline-offset-4 hover:text-white">
+                <Icon name="MessageCircle" size={16} /> Ask host to arrange transport
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    ))}
   </div>
 </section>
+
+<style>
+  .guide-panel:not([hidden]) {
+    animation: guide-in 0.45s ease-out;
+  }
+  @keyframes guide-in {
+    from { opacity: 0; transform: translateX(16px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guide-panel:not([hidden]) { animation: none; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-guide]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = root.querySelector<HTMLElement>('#' + t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') select(tabs[(i + 1) % tabs.length], true);
+        if (e.key === 'ArrowLeft') select(tabs[(i - 1 + tabs.length) % tabs.length], true);
+        if (e.key === 'Home') select(tabs[0], true);
+        if (e.key === 'End') select(tabs[tabs.length - 1], true);
+      });
+    });
+  }
+</script>
