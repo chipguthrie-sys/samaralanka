@@ -8,7 +8,7 @@ const tile =
   'group relative block w-full cursor-zoom-in overflow-hidden border border-stone-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-palm-500';
 const img = 'aspect-[3/2] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]';
 ---
-<section id="rooms" class="bg-white py-24" data-rooms>
+<section id="rooms" class="py-24" data-rooms>
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <p class="eyebrow">{space.eyebrow}</p>
     <h2 class="mt-4 max-w-3xl text-4xl sm:text-5xl">{space.heading}</h2>
@@ -17,7 +17,8 @@ const img = 'aspect-[3/2] w-full object-cover transition-transform duration-500 
       {rooms.map((r, ri) => {
         const [main, ...rest] = r.images;
         return (
-          <article class="overflow-hidden rounded-2xl border border-stone-200 bg-linen-50 shadow-sm">
+          <article class="overflow-hidden rounded-2xl border border-stone-200/90 bg-white p-6 shadow-sm">
+            <div class="overflow-hidden rounded-xl">
             <div>
               <button type="button" data-room={ri} data-index="0" aria-label={`Open photo 1 of ${r.images.length}: ${main.alt}`} class={tile}>
                 <img src={main.src} alt={main.alt} loading="lazy" class={img} />
@@ -32,11 +33,12 @@ const img = 'aspect-[3/2] w-full object-cover transition-transform duration-500 
                 ))}
               </div>
             )}
-            <div class="p-6 sm:p-8">
+            </div>
+            <div class="pt-6">
               <h3 class="text-3xl">{r.name}</h3>
-              <ul class="mt-4 space-y-2 text-stone-warm">
+              <ul class="mt-4 space-y-2 text-stone-700">
                 {r.features.map((f, i) => (
-                  <li class="flex gap-2"><Icon name={icons[i] ?? 'Sparkles'} size={18} class="mt-0.5 shrink-0 text-palm-500" />{f}</li>
+                  <li class="flex gap-2"><Icon name={icons[i] ?? 'Sparkles'} size={18} class="mt-0.5 shrink-0 text-stone-500" />{f}</li>
                 ))}
               </ul>
             </div>

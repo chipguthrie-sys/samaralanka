@@ -11,8 +11,8 @@ const badges = [
 ---
 <section id="top" class="relative flex min-h-screen items-end text-white">
   <img src={property.images.hero} alt={`${property.name} villa`} class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
-  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/40"></div>
-  <div class="relative mx-auto w-full max-w-7xl px-5 pb-28 pt-40 lg:px-8 md:pb-24">
+  <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/35 to-black/20"></div>
+  <div class="relative z-20 mx-auto w-full max-w-7xl px-5 pb-28 pt-40 lg:px-8 md:pb-24">
     <p class="eyebrow !text-white/80">{property.location.area}, {property.location.country}</p>
     <h1 class="mt-4 max-w-3xl text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">{property.tagline}</h1>
     <p class="mt-6 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg">{property.subtitle}</p>
