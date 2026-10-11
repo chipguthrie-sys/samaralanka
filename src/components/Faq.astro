@@ -1,0 +1,36 @@
+---
+import { property } from '../data/property';
+import { ChevronDown } from 'lucide-astro';
+---
+<section id="faq" class="py-24">
+  <div class="mx-auto max-w-3xl px-5 lg:px-8">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="mt-4 text-4xl sm:text-5xl">Good to know</h2>
+    <div class="mt-10 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+      {property.faqs.map((f, i) => (
+        <div data-faq-item>
+          <h3>
+            <button type="button" id={`faq-btn-${i}`} aria-expanded="false" aria-controls={`faq-panel-${i}`} class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-lg focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-palm-600" data-faq-btn>
+              <span>{f.q}</span>
+              <ChevronDown size={20} class="shrink-0 text-stone-400 transition-transform duration-200" data-chevron aria-hidden="true" />
+            </button>
+          </h3>
+          <div id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-btn-${i}`} hidden class="px-6 pb-6 font-light leading-relaxed text-stone-warm">{f.a}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>('[data-faq-btn]')!;
+    const panel = item.querySelector<HTMLElement>('[role=region]')!;
+    const chev = item.querySelector<SVGElement>('[data-chevron]');
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+      chev?.classList.toggle('rotate-180', !open);
+    });
+  });
+</script>

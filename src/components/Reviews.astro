@@ -1,0 +1,32 @@
+---
+import { property } from '../data/property';
+import { Star } from 'lucide-astro';
+---
+<section id="reviews" class="bg-white py-24">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow">Guest Reviews</p>
+        <h2 class="mt-4 text-4xl sm:text-5xl">Loved by our guests</h2>
+      </div>
+      <div class="inline-flex items-center gap-3 self-start rounded-2xl bg-palm-800 px-5 py-3 text-white sm:self-auto">
+        <span class="text-3xl font-semibold leading-none">{property.stats.rating}</span>
+        <span class="text-sm leading-tight"><strong class="block text-base">Superb</strong>{property.stats.reviews} reviews</span>
+      </div>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {property.reviews.map((r) => (
+        <figure class="flex flex-col rounded-2xl border border-stone-200 bg-stone-50 p-8">
+          <div class="flex gap-1 text-amber-500" role="img" aria-label={`${r.rating} out of 5 stars`}>
+            {Array.from({ length: r.rating }).map(() => <Star size={18} fill="currentColor" stroke-width={0} aria-hidden="true" />)}
+          </div>
+          <blockquote class="mt-5 flex-1 font-serif text-lg italic leading-relaxed text-stone-700">&ldquo;{r.quote}&rdquo;</blockquote>
+          <figcaption class="mt-6 border-t border-stone-200 pt-4 text-sm">
+            <span class="block font-medium text-ink">{r.name}</span>
+            <span class="text-stone-500">{r.country} &middot; {r.date}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

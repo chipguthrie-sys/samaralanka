@@ -8,6 +8,8 @@ import Rooms from '../components/Rooms.astro';
 import Amenities from '../components/Amenities.astro';
 import Welcome from '../components/Welcome.astro';
 import Guide from '../components/Guide.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
 import Host from '../components/Host.astro';
 import Footer from '../components/Footer.astro';
 import StickyBookBar from '../components/StickyBookBar.astro';
@@ -16,13 +18,15 @@ import StickyBookBar from '../components/StickyBookBar.astro';
   <Header />
   <main>
     <Hero />
-    <Gallery />
-    <Overview />
-    <Rooms />
-    <Amenities />
-    <Welcome />
+    <div class="bg-stone-50"><Welcome /></div>
+    <div class="bg-white"><Gallery /></div>
+    <div class="bg-stone-50"><Overview /></div>
+    <div class="bg-white"><Rooms /></div>
+    <div class="bg-stone-50"><Amenities /></div>
+    <Reviews />
     <Guide />
-    <Host />
+    <div class="bg-stone-50"><Faq /></div>
+    <div class="bg-white"><Host /></div>
   </main>
   <Footer />
   <StickyBookBar />

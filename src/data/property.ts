@@ -129,6 +129,50 @@ export const property = {
       },
     ],
   },
+  reviews: [
+    {
+      name: 'Eleanor & James H.',
+      country: 'United Kingdom',
+      rating: 5,
+      date: 'February 2026',
+      quote:
+        'Our jeep was waiting at the gate well before dawn, with flasks of tea for the road. We saw a leopard before breakfast, and the hosts had a hot meal ready when we got back.',
+    },
+    {
+      name: 'Marie-Claire D.',
+      country: 'France',
+      rating: 5,
+      date: 'January 2026',
+      quote:
+        'I spent every evening on my private patio with the birds in the garden. Kingfishers, peacocks and hornbills, and not a sound beyond them. It was the quietest place we stayed in Sri Lanka.',
+    },
+    {
+      name: 'Daniel & Priya K.',
+      country: 'Australia',
+      rating: 5,
+      date: 'March 2026',
+      quote:
+        'The home-cooked rice and curry was the best we had on the whole trip. Everything was made fresh by our hosts, and they adjusted it to our tastes. It felt like staying with family.',
+    },
+  ],
+  faqs: [
+    {
+      q: 'How do I arrange a Yala safari jeep?',
+      a: 'We arrange a trusted local jeep and driver for you. Message us with your preferred date and whether you want a morning or afternoon safari. Early-morning safaris are the quietest and best for wildlife, and your jeep will collect you from the property.',
+    },
+    {
+      q: 'Can you arrange airport transfers from Colombo or Mattala?',
+      a: 'Yes. We can organise a private driver from Colombo (Bandaranaike) Airport or Mattala Rajapaksa Airport. Send us your flight details on WhatsApp and we will confirm the fare and journey time before you arrive.',
+    },
+    {
+      q: 'Do I need to give notice for home-cooked meals?',
+      a: 'Meals are cooked fresh on request, so please let us know the day before, or in the morning for dinner. Tell us about any dietary needs or preferences and we will plan the menu around them.',
+    },
+    {
+      q: 'Is there Wi-Fi and backup power?',
+      a: 'Wi-Fi is available at the property. Please ask us about backup power arrangements during a power cut when you book, so we can confirm the current setup for your stay.',
+    },
+  ],
   disclaimer:
     'Samara Resort is an independently operated property. Reservations are made and processed securely through Booking.com. Booking.com is a trademark of Booking.com B.V. and is not affiliated with this website.',
 } as const;
