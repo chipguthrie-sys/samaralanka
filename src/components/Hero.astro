@@ -10,7 +10,7 @@ const badges = [
 ];
 ---
 <section id="top" class="relative flex min-h-screen items-end text-white">
-  <img src={property.images.hero} alt={`${property.name} villa`} class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
+  <img src={property.images.hero} alt={`${property.name} villa`} class="absolute inset-0 h-full w-full object-cover" loading="eager" decoding="async" fetchpriority="high" />
   <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/35 to-black/20"></div>
   <div class="relative z-20 mx-auto w-full max-w-7xl px-5 pb-28 pt-40 lg:px-8 md:pb-24">
     <p class="eyebrow !text-white/80">{property.location.area}, {property.location.country}</p>

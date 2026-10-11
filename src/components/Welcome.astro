@@ -7,7 +7,7 @@ const p = welcome.photo;
   <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
     <figure class="group mx-auto w-full max-w-md lg:max-w-none">
       <div class="overflow-hidden rounded-2xl border border-stone-200 shadow-sm">
-        <img src={p.src} alt={p.alt} loading="lazy" class={`aspect-[4/5] w-full object-cover ${p.position} transition-transform duration-500 ease-out group-hover:scale-[1.02]`} />
+        <img src={p.src} alt={p.alt} loading="lazy" decoding="async" class={`aspect-[4/5] w-full object-cover ${p.position} transition-transform duration-500 ease-out group-hover:scale-[1.02]`} />
       </div>
       <figcaption class="mt-4 text-center font-serif text-lg italic text-stone-warm">{p.caption}</figcaption>
     </figure>
